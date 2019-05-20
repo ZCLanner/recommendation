@@ -15,15 +15,15 @@ public abstract class AbstractAttackDataGenerator implements AttackDataGenerator
     private Integer maxUserId;
 
     @Override
-    public void analyze(Matrix sourceData) {
+    public void analyze(Matrix<Integer> sourceData) {
         maxUserId = sourceData.allX().stream().reduce((integer, integer2) -> integer>integer2? integer : integer2).get();
     }
 
     @Override
-    public Matrix generate(Matrix sourceData, Integer scalePercent) {
+    public Matrix<Integer> generate(Matrix<Integer> sourceData, Integer scalePercent) {
         Integer userCount = sourceData.length();
         userCount = userCount*scalePercent/100;
-        Matrix matrix = new Matrix(userCount,attackRatingCount);
+        Matrix<Integer> matrix = new Matrix<>(userCount, attackRatingCount);
         for (int i = maxUserId+1; i <= maxUserId+userCount; i++) {
             matrix.set(i, targetItem, 5.0D);
             for (Integer mId : movies()) {

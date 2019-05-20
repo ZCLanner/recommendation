@@ -6,6 +6,6 @@ import java.io.IOException;
 
 public interface AttackDataStorage {
 
-    void save(String strategy, int scalePercent, Matrix matrix) throws IOException;
+    void save(String strategy, int scalePercent, Matrix<Integer> matrix) throws IOException;
 
 }

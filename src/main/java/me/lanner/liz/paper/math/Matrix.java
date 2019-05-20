@@ -1,6 +1,6 @@
 package me.lanner.liz.paper.math;
 
-public class Matrix extends Vector<Vector<Double>> {
+public class Matrix<K> extends Vector<K, Vector<Integer, Double>> {
 
     private final int width;
 
@@ -9,8 +9,8 @@ public class Matrix extends Vector<Vector<Double>> {
         this.width = width;
     }
 
-    public void set(Integer x, Integer y, Double v) {
-        Vector<Double> vector = get(x);
+    public void set(K x, Integer y, Double v) {
+        Vector<Integer, Double> vector = get(x);
         if (vector == null) {
             vector = new Vector<>(width);
             set(x, vector);
@@ -18,8 +18,8 @@ public class Matrix extends Vector<Vector<Double>> {
         vector.set(y, v);
     }
 
-    public Double get(Integer x, Integer y) {
-        Vector<Double> vector = get(x);
+    public Double get(K x, Integer y) {
+        Vector<Integer, Double> vector = get(x);
         if (vector == null) {
             return null;
         }

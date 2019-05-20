@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-@Profile("rand")
+@Profile({"rand", "attack"})
 public class RandomAttackDataGenerator extends AbstractAttackDataGenerator {
 
     private List<Integer> movieIds;
@@ -19,13 +19,11 @@ public class RandomAttackDataGenerator extends AbstractAttackDataGenerator {
     }
 
     @Override
-    public void analyze(Matrix sourceData) {
+    public void analyze(Matrix<Integer> sourceData) {
         super.analyze(sourceData);
         Set<Integer> movieIdSet = new HashSet<>();
         for (Integer userId : sourceData.allX()) {
-            for (Integer movieId : sourceData.get(userId).allX()) {
-                movieIdSet.add(movieId);
-            }
+            movieIdSet.addAll(sourceData.get(userId).allX());
         }
         movieIds = new ArrayList<>(movieIdSet);
     }

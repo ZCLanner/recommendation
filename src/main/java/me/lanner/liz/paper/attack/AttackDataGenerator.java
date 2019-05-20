@@ -4,10 +4,10 @@ import me.lanner.liz.paper.math.Matrix;
 
 public interface AttackDataGenerator {
 
-    default void analyze(Matrix sourceData) { }
+    default void analyze(Matrix<Integer> sourceData) { }
 
     String strategy();
 
-    Matrix generate(Matrix sourceData, Integer scalePercent);
+    Matrix<Integer> generate(Matrix<Integer> sourceData, Integer scalePercent);
 
 }

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-@Profile("hot")
+@Profile({"hot", "attack"})
 public class HotAttackDataGenerator extends AbstractAttackDataGenerator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HotAttackDataGenerator.class);
@@ -23,13 +23,13 @@ public class HotAttackDataGenerator extends AbstractAttackDataGenerator {
     private int hotMovieCount;
 
     @Override
-    public void analyze(Matrix sourceData) {
+    public void analyze(Matrix<Integer> sourceData) {
         super.analyze(sourceData);
         hotMovieRateMap = new HashMap<>(hotMovieCount);
         Map<Integer, Integer> ratedCountMap = new HashMap<>();
         Map<Integer, Double> rateSumMap = new HashMap<>();
         for (final Integer userId : sourceData.allX()) {
-            Vector<Double> userRatings = sourceData.get(userId);
+            Vector<Integer, Double> userRatings = sourceData.get(userId);
             for (Integer movieId : userRatings.allX()) {
                 Integer ratedCount = ratedCountMap.computeIfAbsent(movieId, mid -> 0);
                 ratedCount = ratedCount+1;

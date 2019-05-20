@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-@Profile("avg")
+@Profile({"avg", "attack"})
 public class AvgAttackDataGenerator extends AbstractAttackDataGenerator {
 
     private Map<Integer, Double> movieAvgRateMap;
@@ -16,13 +16,13 @@ public class AvgAttackDataGenerator extends AbstractAttackDataGenerator {
     private Random random = new Random(System.currentTimeMillis());
 
     @Override
-    public void analyze(Matrix sourceData) {
+    public void analyze(Matrix<Integer> sourceData) {
         super.analyze(sourceData);
         Map<Integer, Integer> ratedCountMap = new HashMap<>();
         Map<Integer, Double> rateSumMap = new HashMap<>();
         int totalCount = 0;
         for (final Integer userId : sourceData.allX()) {
-            Vector<Double> userRatings = sourceData.get(userId);
+            Vector<Integer, Double> userRatings = sourceData.get(userId);
             for (Integer movieId : userRatings.allX()) {
                 Integer ratedCount = ratedCountMap.computeIfAbsent(movieId, mid -> 0);
                 ratedCount = ratedCount+1;
