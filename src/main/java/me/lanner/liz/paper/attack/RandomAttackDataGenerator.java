@@ -1,13 +1,15 @@
 package me.lanner.liz.paper.attack;
 
 import me.lanner.liz.paper.math.Matrix;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
-@Profile({"rand", "attack"})
+@Profile("attack")
+@ConditionalOnProperty(value = "attack.algo.enable.rand", havingValue = "true")
 public class RandomAttackDataGenerator extends AbstractAttackDataGenerator {
 
     private List<Integer> movieIds;

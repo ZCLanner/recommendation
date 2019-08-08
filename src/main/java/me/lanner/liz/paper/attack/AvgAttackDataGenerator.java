@@ -2,14 +2,20 @@ package me.lanner.liz.paper.attack;
 
 import me.lanner.liz.paper.math.Matrix;
 import me.lanner.liz.paper.math.Vector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
-@Profile({"avg", "attack"})
+@Profile("attack")
+@ConditionalOnProperty(value = "attack.algo.enable.avg", havingValue = "true")
 public class AvgAttackDataGenerator extends AbstractAttackDataGenerator {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AvgAttackDataGenerator.class);
 
     private Map<Integer, Double> movieAvgRateMap;
     private Map<Integer, Integer> movieIdRangeMap;
@@ -50,10 +56,15 @@ public class AvgAttackDataGenerator extends AbstractAttackDataGenerator {
     @Override
     protected Collection<Integer> movies() {
         Set<Integer> movieIds = new HashSet<>(attackRatingCount);
-        while (movieIds.size() <= attackRatingCount) {
+        while (movieIds.size() < attackRatingCount) {
             int rand = random.nextInt(movieIdRangeMap.size());
+            Integer nextMovieId = movieIdRangeMap.get(rand);
+            if (nextMovieId.equals(targetItem)) {
+                continue;
+            }
             movieIds.add(movieIdRangeMap.get(rand));
         }
+        LOGGER.debug("AvgAttackDataGenerator generate {} attack movies, include target items ? {}", movieIds.size(), movieIds.contains(targetItem));
         return movieIds;
     }
 

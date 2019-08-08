@@ -1,12 +1,17 @@
 package me.lanner.liz.paper.recommend;
 
 import me.lanner.liz.paper.math.Vector;
-import sun.print.DocumentPropertiesUI;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+@Service
+@Profile("rcmd")
+@ConditionalOnProperty(value = "rcmd.algo.enable.cos", havingValue = "true")
 public class CosVectorSimilarityCalculator implements VectorSimilarityCalculator {
     @Override
     public String name() {

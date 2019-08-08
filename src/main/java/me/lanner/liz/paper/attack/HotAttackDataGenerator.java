@@ -6,13 +6,16 @@ import me.lanner.liz.paper.math.Vector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
-@Profile({"hot", "attack"})
+@Profile({"attack"})
+@ConditionalOnProperty(value = "attack.algo.enable.hot", havingValue = "true")
 public class HotAttackDataGenerator extends AbstractAttackDataGenerator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HotAttackDataGenerator.class);
